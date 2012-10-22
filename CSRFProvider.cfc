@@ -8,7 +8,8 @@
  * Ensures form submissions are coming in from the same application (same origin) that loaded the form,
  * thus providing protection from cross site request forgeries.
  * You must have session management enabled, as well as an application name in Application.cfc
- * As nothing is actually stored in session, this works well across a cluster (with or without sticky sessions) as well as server/application restarts
+ * As nothing is actually stored in session (we just rely on session.sessionId), this works well across a 
+ * cluster (with or without sticky sessions) as well as server/application restarts.
  *
  * Usage:
  * 	// This can be instantiated as a singleton or used at runtime
@@ -40,7 +41,7 @@ component output="false"
 		{
 			throw(type="csrf.error", message="No session found");
 		}
-		variables.instance.hashAlgorithm = "SHA-1";
+		variables.instance.hashAlgorithm = "SHA-256";
 		variables.instance.secret = hash(application.applicationName, variables.instance.hashAlgorithm);
 		return this;
 	}

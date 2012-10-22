@@ -30,3 +30,6 @@ Options:
 // Add a custom css class to the hidden field
 #csrf.renderToken(intention="my_unique_form_name", className="myCssClass")#
 ```
+
+###Note:
+The CSRFProvider.cfml.cfc was a modification of CSRFProvider.cfc to be loaded into a ColdFusion 7 application. In this version the session requirement in the constructor has been removed. It is not recommended to use this version.
