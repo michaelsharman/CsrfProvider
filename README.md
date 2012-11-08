@@ -1,6 +1,6 @@
-Ensures form submissions are coming in from the same application (same origin) that loaded the form, thus providing protection from cross site request forgeries.
+Ensures form submissions are coming in from the same application (same origin) that loaded the form, thus providing protection from [cross site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery).
 
-A successor to [cfsameorigin](https://github.com/michaelsharman/cfsameorigin), as this doesn't store values in session. This means you're not reliant on sticky sessions, and you're safe from server/application restarts.
+A successor to [cfsameorigin](https://github.com/michaelsharman/cfsameorigin), as this doesn't store values in session (however it does require session management to be enabled). This means you're not reliant on sticky sessions, and you're safe from server/application restarts.
 
 Loosely based off the CsrfProvider as part of the [Symfony package](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Extension/Csrf/CsrfProvider/DefaultCsrfProvider.php)
 
@@ -13,7 +13,7 @@ csrf = new CSRFProvider();
 #csrf.renderToken(intention="my_unique_form_name")#
 
 // On form submission, the application must verify the token using the same `intention`
-validSubmission = csrf.verifyToken(intention="my_unique_form_name", form._token);
+validSubmission = csrf.verifyToken(intention="my_unique_form_name", token=form._token);
 ```
 
 A sample hidden field looks like:
@@ -32,4 +32,4 @@ Options:
 ```
 
 ###Note:
-The CSRFProvider.cfml.cfc was a modification of CSRFProvider.cfc to be loaded into a ColdFusion 7 application. In this version the session requirement in the constructor has been removed. It is not recommended to use this version.
+The CSRFProvider.cfml.cfc in this repo was a modification of CSRFProvider.cfc to be loaded into a ColdFusion 7 application. In this version the session requirement in the constructor has been removed (however session management is still required). It is NOT recommended to use this version.
