@@ -11,22 +11,32 @@
  * As nothing is actually stored in session (we just rely on session.sessionId), this works well across a
  * cluster (with or without sticky sessions) as well as server/application restarts.
  *
- * Usage:
+ * Usage (request headers):
  * 	// This can be instantiated as a singleton or used at runtime
  * 	csrf = new CSRFProvider();
  *
+ *	// Use ColdFusion to write/send the token to the browser
+ *	var _token = csrf.generateToken(intention="my_unique_form_name");
+ *
+ *	// Use JavaScript to write a custom header during form submission, eg:
+ *	xhr.setRequestHeader('X-CSRF-Token', _token);
+ *
+ *	// Verify token from CGI scope
+ *	validSubmission = csrf.verifyToken(intention="my_unique_form_name", token=CGI["X-CSRF-Token"]);
+ *
+ * Alternate Usage (hidden form fields):
  * 	// Writes a hidden form field to your view, you must pass an `intention` which should be unique per form, per application
  *	#csrf.renderToken(intention="my_unique_form_name")#
  *
- * 	// On form submission, the application must verify the token using the same `intention`
- * 	validSubmission = csrf.verifyToken(intention="my_unique_form_name", token=form._token);
+ *	// On form submission, the application must verify the token using the same `intention`
+ *	validSubmission = csrf.verifyToken(intention="my_unique_form_name", token=form._token);
  *
  * Options:
  * 	// Override the hidden field name (which is `_token` by default)
  * 	#csrf.renderToken(intention="my_unique_form_name", inputName="anotherName")#
  *
- * 	// Add a custom css class to the hidden field
- * 	#csrf.renderToken(intention="my_unique_form_name", className="myCssClass")#
+ *	// Add a custom css class to the hidden field
+ *	#csrf.renderToken(intention="my_unique_form_name", className="myCssClass")#
  */
 component output="false"
 {

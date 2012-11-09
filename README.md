@@ -4,11 +4,23 @@ A successor to [cfsameorigin](https://github.com/michaelsharman/cfsameorigin), a
 
 Loosely based off the CsrfProvider as part of the [Symfony package](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Extension/Csrf/CsrfProvider/DefaultCsrfProvider.php)
 
-##Usage:
+##Usage (request headers):
 ```
 // This can be instantiated as a singleton or used at runtime
 csrf = new CSRFProvider();
 
+// Use ColdFusion to write/send the token to the browser
+var _token = csrf.generateToken(intention="my_unique_form_name");
+
+// Use JavaScript to write the token to a custom header during form submission, eg:
+xhr.setRequestHeader('X-CSRF-Token', '#_token#');
+
+// On form submission, verify the token from CGI scope
+validSubmission = csrf.verifyToken(intention="my_unique_form_name", token=CGI["X-CSRF-Token"]);
+```
+
+##Alternate Usage (hidden form fields):
+```
 // Writes a hidden form field to your view, you must pass an `intention` which should be unique per form, per application
 #csrf.renderToken(intention="my_unique_form_name")#
 
@@ -33,3 +45,4 @@ Options:
 
 ###Note:
 The CSRFProvider.cfml.cfc in this repo was a modification of CSRFProvider.cfc to be loaded into a ColdFusion 7 application. In this version the session requirement in the constructor has been removed (however session management is still required). It is NOT recommended to use this version.
+
