@@ -52,9 +52,9 @@ component output="false"
 	* @hint Generates a secure token to use in a form as a hidden field to make sure the form submission came from the correct source
 	* @param {String} intention A unique name (per application/website) for the form. Will be used as part of the token hash.
 	*/
-	private string function generateToken(required String intention)
+	public string function generateToken(required String intention)
 	{
-		return hash(variables.instance.secret & arguments.intention & getSessionId(), variables.instance.hashAlgorithm);
+		return hash(variables.instance.secret & jsStringFormat(trim(arguments.intention)) & getSessionId(), variables.instance.hashAlgorithm);
 	}
 
 
@@ -77,7 +77,7 @@ component output="false"
 	{
 		var _css = "";
 		var _name = trim(arguments.inputName);
-		var _token = generateToken(jsStringFormat(trim(arguments.intention)));
+		var _token = generateToken(arguments.intention);
 
 		if (structKeyExists(arguments, "className") && len(trim(arguments.className)))
 		{
@@ -95,7 +95,7 @@ component output="false"
 	*/
 	public boolean function verifyToken(required String intention, required String token)
 	{
-		return arguments.token == generateToken(jsStringFormat(trim(arguments.intention)));
+		return arguments.token == generateToken(arguments.intention);
 	}
 
 }
