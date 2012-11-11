@@ -1,15 +1,15 @@
 Ensures form submissions are coming in from the same application (same origin) that loaded the form, thus providing protection from [cross site request forgeries](http://en.wikipedia.org/wiki/Cross-site_request_forgery).
 
-A successor to [cfsameorigin](https://github.com/michaelsharman/cfsameorigin), as this doesn't store values in session (however it does require session management to be enabled). This means you're not reliant on sticky sessions, and you're safe from server/application restarts.
+A successor to [cfsameorigin](https://github.com/michaelsharman/cfsameorigin), as this CFC doesn't store any actual values in session (however it does require session management to be enabled). This means you're not reliant on sticky sessions, and you're safe from server/application restarts.
 
 Loosely based off the CsrfProvider as part of the [Symfony package](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/Form/Extension/Csrf/CsrfProvider/DefaultCsrfProvider.php)
 
 ##Usage (request headers):
 ```
-// This can be instantiated as a singleton or used at runtime
+// This can be instantiated as a singleton or at runtime
 csrf = new CSRFProvider();
 
-// Use ColdFusion to write/send the token to the browser
+// Use ColdFusion to write/send the token to the browser based, off a unique `intention` (best to be unique per form)
 var _token = csrf.generateToken(intention="my_unique_form_name");
 
 // Use JavaScript to write the token to a custom header during form submission, eg:
