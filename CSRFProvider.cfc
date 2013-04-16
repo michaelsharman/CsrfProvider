@@ -49,11 +49,11 @@ component output="false"
 	{
 		if (!isDefined("application.applicationName") || !len(application.applicationName))
 		{
-			throw(type="csrf.error", message="No application name found");
+			throw(type="csrf.noapplication", message="No application name found");
 		}
 		if (!isDefined("session") || !structKeyExists(session, "sessionId"))
 		{
-			throw(type="csrf.error", message="No session found");
+			throw(type="csrf.nosession", message="No session found");
 		}
 		var secretKey = "l5WA9UFf0S/vAJUdZgzrHA=="; // String literal that should be changed, but be unique, per application
 		variables.instance.hashAlgorithm = "SHA-256";
